@@ -52,10 +52,10 @@ class ProcessScheduledRemindersCommand extends Command
             $daysBeforeEvent = intval($matches[1]);
             $sendDate = $event->event_date->copy()->subDays($daysBeforeEvent);
 
-            $sendTime = $sendDate->setTime(9, 00, 0);
+            $sendTime = $sendDate->setTime(9, 0, 0);
             $diff = Carbon::now()->diffInSeconds($sendTime, false);
 
-            return ($diff >= 0);
+            return ($diff >= 0 && $diff <= 300);
         }
 
         return false;
