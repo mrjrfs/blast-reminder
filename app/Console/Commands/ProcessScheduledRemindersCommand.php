@@ -17,22 +17,16 @@ class ProcessScheduledRemindersCommand extends Command
 
     public function handle()
     {
-        \Log::info('Processing scheduled reminders...');
         $reminders = ScheduledReminder::where('is_active', true)->get();
-        Log::info('Found ' . count($reminders) . ' reminders to process.');
 
         foreach ($reminders as $reminder) {
-            Log::info($reminder);
-
             if ($this->shouldSendReminder($reminder)) {
-                Log::info('Sending reminder for event: ' . $reminder->event->title);
                 $participants = $reminder->event->participants()->get();
 
                 $notificationService = new NotificationService();
 
                 foreach ($participants as $participant) {
                     if ($participant->payment_status === $reminder->target_status) {
-                        Log::info('Sending reminder for event: ' . $reminder->event->title);
                         $notificationService->sendNotification($participant, $reminder);
                     }
                 }
@@ -52,7 +46,11 @@ class ProcessScheduledRemindersCommand extends Command
             $daysBeforeEvent = intval($matches[1]);
             $sendTime = $event->event_date->copy()->subDays($daysBeforeEvent);
 
-            $diff = Carbon::now()->diffInSeconds($sendTime, false);
+            $diff = Carbon::now('Asia/Jakarta')->diffInSeconds($sendTime, false);
+
+            $diffBetweenUTCAndJakarta = 7 * 60 * 60;
+
+            $diff -= $diffBetweenUTCAndJakarta;
 
             return ($diff >= 0 && $diff <= 500);
         }
