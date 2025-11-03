@@ -24,6 +24,8 @@ class ReminderController extends Controller
             'schedule_setting' => 'required|string',
         ]);
 
+        $validated['is_active'] = true;
+
         $event = Event::findOrFail($request->event);
 
         $event->scheduledReminders()->create($validated);

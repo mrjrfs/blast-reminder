@@ -22,7 +22,10 @@ class ProcessScheduledRemindersCommand extends Command
         Log::info('Found ' . count($reminders) . ' reminders to process.');
 
         foreach ($reminders as $reminder) {
+            Log::info($reminder);
+
             if ($this->shouldSendReminder($reminder)) {
+                Log::info('Sending reminder for event: ' . $reminder->event->title);
                 $participants = $reminder->event->participants()->get();
 
                 $notificationService = new NotificationService();
@@ -33,9 +36,9 @@ class ProcessScheduledRemindersCommand extends Command
                         $notificationService->sendNotification($participant, $reminder);
                     }
                 }
-            }
 
-            $reminder->update(['is_active' => false]);
+                $reminder->update(['is_active' => false]);
+            }
         }
     }
 
@@ -46,10 +49,13 @@ class ProcessScheduledRemindersCommand extends Command
 
         // Parse schedule setting (e.g., 'H-3', 'H-1', 'H-0')
         if (preg_match('/H-(\d+)/', $scheduleSetting, $matches)) {
-            $hoursBeforeEvent = intval($matches[1]);
-            $sendTime = $event->event_date->copy()->subHours($hoursBeforeEvent);
+            $daysBeforeEvent = intval($matches[1]);
+            $sendDate = $event->event_date->copy()->subDays($daysBeforeEvent);
 
-            return Carbon::now()->diffInSeconds($sendTime, false) <= 300;
+            $sendTime = $sendDate->setTime(9, 00, 0);
+            $diff = Carbon::now()->diffInSeconds($sendTime, false);
+
+            return ($diff >= 0);
         }
 
         return false;
