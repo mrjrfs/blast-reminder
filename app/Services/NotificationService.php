@@ -19,6 +19,8 @@ class NotificationService
 
             $randomDelayInSeconds = mt_rand(1, 15);
 
+            Log::info('delay: ' . $randomDelayInSeconds);
+
             dispatch(new SendWhatsappBlastJob($participant, $reminder))->delay(now()->addSeconds($randomDelayInSeconds));
 
             // Log success

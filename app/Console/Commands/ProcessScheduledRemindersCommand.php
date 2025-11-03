@@ -50,12 +50,11 @@ class ProcessScheduledRemindersCommand extends Command
         // Parse schedule setting (e.g., 'H-3', 'H-1', 'H-0')
         if (preg_match('/H-(\d+)/', $scheduleSetting, $matches)) {
             $daysBeforeEvent = intval($matches[1]);
-            $sendDate = $event->event_date->copy()->subDays($daysBeforeEvent);
+            $sendTime = $event->event_date->copy()->subDays($daysBeforeEvent);
 
-            $sendTime = $sendDate->setTime(9, 00, 0);
             $diff = Carbon::now()->diffInSeconds($sendTime, false);
 
-            return ($diff >= 0);
+            return ($diff >= 0 && $diff <= 500);
         }
 
         return false;
