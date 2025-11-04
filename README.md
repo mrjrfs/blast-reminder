@@ -7,40 +7,78 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## About The Project
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This is a Laravel application that uses scheduled jobs to perform tasks.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Getting Started
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Prerequisites
 
-## Learning Laravel
+* PHP >= 8.2
+* Composer
+* Node.js
+* NPM
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Installation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. Clone the repo
+   ```sh
+   git clone https://github.com/your_username/your_project.git
+   ```
+2. Install PHP dependencies
+   ```sh
+   composer install
+   ```
+3. Install NPM packages
+   ```sh
+   npm install
+   ```
+4. Create a copy of your .env file
+   ```sh
+   cp .env.example .env
+   ```
+5. Generate an app encryption key
+   ```sh
+   php artisan key:generate
+   ```
+6. Create an empty database and add your database credentials in your .env file
+7. Run the database migrations
+   ```sh
+   php artisan migrate
+   ```
 
-## Laravel Sponsors
+## Running the Application
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+To run the application, you can use the following command:
 
-### Premium Partners
+```sh
+php artisan serve
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Setting up the Scheduler
+
+To set up the scheduler, you will need to add the following cron entry to your server.
+
+```sh
+* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+```
+
+## Running the Queue Worker
+
+To run the queue worker, you can use the following command:
+
+```sh
+php artisan queue:work
+```
+
+You can also specify the queue connection and the queue name.
+
+```sh
+php artisan queue:work redis --queue=high,default
+```
+
+You can also run the queue worker in the background using a process monitor like Supervisor.
 
 ## Contributing
 
