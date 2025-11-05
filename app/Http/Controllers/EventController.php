@@ -10,7 +10,7 @@ class EventController extends Controller
 {
     public function index()
     {
-        $events = Auth::user()->events()->latest()->paginate(10);
+        $events = Event::latest()->paginate(10);
         return view('events.index', compact('events'));
     }
 

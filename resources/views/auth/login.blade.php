@@ -23,9 +23,9 @@
             <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded font-semibold">Login</button>
         </form>
 
-        <p class="text-center text-gray-600 mt-4">
+        {{-- <p class="text-center text-gray-600 mt-4">
             Belum punya akun? <a href="{{ route('register') }}" class="text-blue-500 hover:underline">Daftar di sini</a>
-        </p>
+        </p> --}}
     </div>
 </div>
 @endsection
