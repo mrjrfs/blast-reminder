@@ -20,6 +20,8 @@ class ProcessScheduledRemindersCommand extends Command
         $reminders = ScheduledReminder::where('is_active', true)->get();
 
         foreach ($reminders as $reminder) {
+            Log::info($reminder);
+
             if ($this->shouldSendReminder($reminder)) {
                 $participants = $reminder->event->participants()->get();
 
@@ -46,7 +48,7 @@ class ProcessScheduledRemindersCommand extends Command
             $daysBeforeEvent = intval($matches[1]);
             $sendTime = $event->event_date->copy()->subDays($daysBeforeEvent);
 
-            $diff = Carbon::now('Asia/Jakarta')->diffInSeconds($sendTime, false);
+            $diff = Carbon::now()->diffInSeconds($sendTime, false);
 
             $diffBetweenUTCAndJakarta = 7 * 60 * 60;
 
