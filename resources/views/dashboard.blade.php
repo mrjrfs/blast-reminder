@@ -6,15 +6,15 @@
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
     <div class="bg-white p-6 rounded-lg shadow">
         <h3 class="text-gray-500 text-sm font-semibold">Total Acara</h3>
-        <p class="text-3xl font-bold text-blue-600 mt-2">{{ Auth::user()->events->count() }}</p>
+        <p class="text-3xl font-bold text-blue-600 mt-2">{{ $numberOfEvent }}</p>
     </div>
     <div class="bg-white p-6 rounded-lg shadow">
         <h3 class="text-gray-500 text-sm font-semibold">Total Partisipan</h3>
-        <p class="text-3xl font-bold text-green-600 mt-2">{{ Auth::user()->events->flatMap->participants->count() }}</p>
+        <p class="text-3xl font-bold text-green-600 mt-2">{{ $numberOfParticipants }}</p>
     </div>
     <div class="bg-white p-6 rounded-lg shadow">
         <h3 class="text-gray-500 text-sm font-semibold">Pembayaran Pending</h3>
-        <p class="text-3xl font-bold text-red-600 mt-2">{{ Auth::user()->events->flatMap->participants->where('payment_status', 'unpaid')->count() }}</p>
+        <p class="text-3xl font-bold text-red-600 mt-2">{{ $numberOfParticipantsUnpaid }}</p>
     </div>
 </div>
 
@@ -35,7 +35,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (Auth::user()->events as $event)
+            @foreach ($events as $event)
                 <tr class="border-b hover:bg-gray-50">
                     <td class="px-6 py-3">{{ $event->title }}</td>
                     <td class="px-6 py-3">{{ $event->event_date->format('d-m-Y H:i') }}</td>
